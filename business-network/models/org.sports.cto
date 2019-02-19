@@ -1,0 +1,41 @@
+/*
+Deliverable Stages:
+1. Define the problem: 
+
+  A simple hierarchy of autonomous sports clubs needs to operate by pre-defined rules & permissions and in accordance to one another to form a consortium, called Federation. As single administrative role representatives on a club level can come to an abuse of power, unattended growth of the consortium can lead to overpowering group decisions, even beyond the reach of the internal statutes.
+  
+2. Describe the solution:
+
+  2.1. [blockchain] Players should be able to register for Club membership without a central authority. Registrations should be validated only against some minimum required fields. Players should have unique identities & their history & actions should be traceable in order for them to be treated as roles in an "to be" organization - ecosystem.
+
+  2.2. [privacy] The consortium topology should be enclosed within a private network with access only granted through an invitation process. Personal athlete information should be strictly managed within its current operational domain.
+
+3. Implement Business Network Solution 
+
+  # TA-DA-DA-DAAAM... 
+
+4. Implement simple, embeddable UI to interact with the Network Solution
+
+  - Register a **Passport** account (Verification/KYC)
+
+  - Receive a guest assessment (invitation)
+  
+	- Apply for sports club membership (player)
+
+	    - Apply for federation license (player, club)
+
+      - Extend a federation license (player, club)
+  
+	    - Apply for club transfer (player, club, federation)
+
+  - Create a new sports club
+
+*/
+
+namespace org.sports
+
+import org.sports.participant.*
+
+import org.sports.club.*
+
+import org.sports.federation.*

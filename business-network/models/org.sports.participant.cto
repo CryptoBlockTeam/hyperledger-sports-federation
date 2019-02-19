@@ -1,0 +1,64 @@
+namespace org.sports.participant
+
+// ENUMS
+enum ApplicationStatus {
+  o AWAITING
+  o RECEIVED
+  o APPROVED
+  o PAID
+  o REJECTED
+}
+enum PlayerLevel {
+  o ROOKIE
+  o AMATEUR
+  o SEMIPRO
+  o PRO
+}
+enum MemberPosition {
+  o PLAYER
+  o CAPTAIN
+  o COACH
+  o OFFICIAL
+  o ADMINISTRATOR
+}
+
+participant SportsFederation identified by federationID {
+  o String federationID
+  o String name
+}
+
+participant SportsClub identified by clubID {
+  o String clubID
+  o String name
+  --> SportsFederation federation optional
+}
+
+abstract participant Person identified by personID { // Email in our use-case
+  o String personID
+  o String firstName
+  o String lastName
+}
+
+// Created during network deployment
+// There should always be at least one of these to serve as `matig stick` in order for the network to expand
+participant SportsGuest extends Person {
+  o PlayerLevel level
+}
+participant SportsPlayer extends SportsGuest {
+  --> SportsClub club
+}
+participant OrgaizationMember extends SportsPlayer {
+  o MemberPosition position
+}
+
+// Used for Initial Network Setup
+transaction Genesis {
+  o String clubName
+  o String memberFirstName
+  o String memberLastName
+}
+event GenesisEvent {
+  o String clubName
+  o String memberFirstName
+  o String memberLastName
+}

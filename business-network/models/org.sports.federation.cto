@@ -1,0 +1,77 @@
+namespace org.sports.federation
+
+import org.sports.participant.*
+import org.sports.club.*
+
+
+// ASSETS
+asset LicenseApplication identified by letterId {
+  o String letterId
+  --> SportsPlayer applicant
+  --> SportsFederation federation
+  o String season
+  // --> Person [] approval // in case of more than one
+  o ApplicationStatus status
+  o String note optional
+}
+
+asset TransferApplication identified by letterId {
+  o String letterId
+  --> SportsPlayer applicant
+  --> SportsClub club
+  --> SportsFederation federation
+  // --> Person [] approval // in case of more than one
+  o ApplicationStatus status
+  o String note optional
+}
+
+
+// TRANSACTIONS + EVENTS: License 
+// (Init, Extend, Transfer + Approve, Reject)
+
+// Creates asset LicenseApplication, later referred to by the InitialLicenseApplicationEvent
+transaction InitialLicenseApplication {
+  o String appId
+  --> SportsPlayer applicant
+  --> SportsFederation federation
+}
+event InitialLicenseApplicationEvent {
+  --> LicenseApplication memberAppication
+}
+// TODO: absract LicenseApplication!
+// transaction ExtendLicenseApplication {
+//   --> SportsPlayer applicant
+//   --> SportsFederation federation
+// }
+
+transaction MembershipTransferApplication {
+  --> SportsPlayer applicant
+  --> SportsClub club
+  --> SportsFederation federation
+}
+event MembershipTransferApplicationEvent {
+  --> TransferApplication transferAppication
+}
+
+// Abstract handlers
+abstract transaction HandleLicense {
+  --> LicenseApplication memberAppication
+  --> OrgaizationMember handlingParty
+}
+abstract event HandleLicenseEvent {
+  --> LicenseApplication memberAppication
+  --> OrgaizationMember approvingParty
+}
+
+transaction ApproveLicense extends HandleLicense {
+}
+event ApproveLicenseEvent extends HandleLicenseEvent {
+}
+
+transaction RejectLicense extends HandleLicense {
+  o String closeReason
+}
+event RejectLicenseEvent extends HandleLicenseEvent {
+  o String closeReason
+}
+

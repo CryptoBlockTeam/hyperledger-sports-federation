@@ -1,0 +1,61 @@
+namespace org.sports.club
+
+import org.sports.participant.*
+
+// ASSETS
+asset MembershipApplication identified by appID {
+  o String appID
+  --> SportsPlayer applicant
+  --> SportsClub club
+  o String month
+  //--> Person [] approval // in case of more than one
+  o ApplicationStatus status
+  o String note optional
+}
+
+// TRANSACTIONS + EVENTS: MEMBERSHIP (Init, Extend + Approve, Reject)
+
+// Creates asset 
+transaction GuestAssessment {
+  --> OrgaizationMember assessor
+  --> SportsGuest player
+  o PlayerLevel level
+}
+
+// Creates asset LicenseApplication, later referred to by the InitialLicenseApplicationEvent
+transaction InitialMembershipApplication {
+  o String appID
+  --> SportsPlayer applicant
+  --> SportsClub club
+  // --> OrgaizationMember teller
+}
+event InitialMembershipApplicationEvent {
+  --> MembershipApplication mApp
+}
+// TODO: absract MembershipApplication!
+// transaction ExtendMembershipApplication {
+//   --> SportsPlayer applicant
+//   --> SportsClub club
+// }
+
+// Abstract handlers
+abstract transaction HandleMembership {
+  --> MembershipApplication memberAppication
+  --> OrgaizationMember handlingParty
+}
+abstract event HandleMembershipEvent {
+  --> MembershipApplication memberAppication
+  --> OrgaizationMember approvingParty
+}
+
+transaction ApproveMembership extends HandleMembership {
+}
+event ApproveMembershipEvent extends HandleMembershipEvent {
+}
+
+transaction RejectMembership extends HandleMembership {
+  o String closeReason
+}
+event RejectMembershipEvent extends HandleMembershipEvent {
+  o String closeReason 
+}
